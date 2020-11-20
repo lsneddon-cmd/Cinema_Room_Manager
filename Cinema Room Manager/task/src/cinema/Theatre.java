@@ -6,10 +6,22 @@ public class Theatre implements IMatrix {
     private int rows;
     private int cols;
     char[][] matrix;
+    private int totalSeats;
+
+    public Theatre(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        this.totalSeats = rows * cols;
+        matrix = new char[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            Arrays.fill(matrix[i], 'S');
+        }
+    }
 
     public Theatre() {
         this.rows = 7;
         this.cols = 8;
+        this.totalSeats = rows * cols;
         matrix = new char[rows][cols];
         for (int i = 0; i < rows; i++) {
             Arrays.fill(matrix[i], 'S');
@@ -50,5 +62,9 @@ public class Theatre implements IMatrix {
 
     public int getRows() {
         return rows;
+    }
+
+    public int getTotalSeats() {
+        return totalSeats;
     }
 }
