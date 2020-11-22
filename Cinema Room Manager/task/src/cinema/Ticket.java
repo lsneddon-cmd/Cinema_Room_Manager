@@ -2,9 +2,9 @@ package cinema;
 
 public class Ticket {
     // TODO implement Iterable interface
-    private int price;
-    private int row;
-    private int col;
+    private final int price;
+    private final int row;
+    private final int col;
     private boolean booked;
 
     public Ticket(int row, int col, int price) {
