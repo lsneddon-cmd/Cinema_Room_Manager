@@ -10,5 +10,6 @@ public interface IBookingManager {
     int getSeatPrice(int row, int col);
     boolean checkAvailableSeat(int row, int col);
     void print();
-    void buyTicket(Scanner scanner);
+    void buyTicket(Scanner scanner) throws Exception;
+    void printStats();
 }

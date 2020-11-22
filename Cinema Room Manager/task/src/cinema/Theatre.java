@@ -3,6 +3,7 @@ package cinema;
 import java.util.Arrays;
 
 public class Theatre implements IMatrix {
+    // TODO Theatre should implement a new interface IVenue that extends IMatrix
     private int rows;
     private int cols;
     char[][] matrix;

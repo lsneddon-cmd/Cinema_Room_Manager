@@ -15,6 +15,7 @@ public class Cinema {
             printMenu();
             menuChoice = scanner.nextInt();
             scanner.nextLine();
+            boolean booked = false;
 
             switch (menuChoice) {
                 case 0:
@@ -24,8 +25,18 @@ public class Cinema {
                     bookingManager.print();
                     break;
                 case 2:
-                    bookingManager.buyTicket(scanner);
+                    while (!booked) {
+                        try {
+                            bookingManager.buyTicket(scanner);
+                            booked = true;
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    booked = false;
                     break;
+                case 3:
+                    bookingManager.printStats();
             }
         }
     }
@@ -52,6 +63,7 @@ public class Cinema {
         String[] menu = {
                 "1. Show the seats",
                 "2. Buy a ticket",
+                "3. Statistics",
                 "0. Exit"
         };
         for (String item : menu) {

@@ -1,6 +1,7 @@
 package cinema;
 
 public class Ticket {
+    // TODO implement Iterable interface
     private int price;
     private int row;
     private int col;

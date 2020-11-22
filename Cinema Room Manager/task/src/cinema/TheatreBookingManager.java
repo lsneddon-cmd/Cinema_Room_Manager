@@ -5,17 +5,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TheatreBookingManager implements IBookingManager {
-    Theatre cinema;
-    List<Ticket> tickets;
+    private Theatre cinema;
+    private List<Ticket> tickets;
+    private int purchasedTickets;
+    private int currentIncome;
 
     public TheatreBookingManager(Theatre cinema) {
         this.cinema = cinema;
         tickets = new ArrayList<>();
+        // TODO As we don't random access, tickets is better as Linked List
         for (int i = 0; i < cinema.getRows(); i++) {
             for (int j = 0; j < cinema.getCols(); j++) {
                 tickets.add(generateTicket(i, j));
             }
         }
+        this.purchasedTickets = 0;
+        this.currentIncome = 0;
     }
 
     @Override
@@ -52,6 +57,8 @@ public class TheatreBookingManager implements IBookingManager {
             for (Ticket ticket : tickets) {
                 if (ticket.getRow() == row && ticket.getCol() == col) {
                     ticket.setBooked(true);
+                    purchasedTickets++;
+                    currentIncome += ticket.getPrice();
                 }
             }
         }
@@ -84,7 +91,7 @@ public class TheatreBookingManager implements IBookingManager {
     }
 
     @Override
-    public void buyTicket(Scanner scanner) {
+    public void buyTicket(Scanner scanner) throws Exception {
         System.out.println("Enter a row number:");
         int row = scanner.nextInt();
         row--; // Account for zero indexing
@@ -94,7 +101,27 @@ public class TheatreBookingManager implements IBookingManager {
         col--; // Account for zero indexing
         scanner.nextLine();
         System.out.println();
+
+        if (row >= cinema.getRows() || col >= cinema.getCols()) {
+            throw new Exception("Wrong input");
+        }
+
+        if (checkAvailableSeat(row, col)) {
+            bookSeat(row, col);
+        } else {
+            throw new Exception("That ticket has already been purchased!");
+        }
+
         System.out.println("Ticket price: $" + getSeatPrice(row, col));
-        bookSeat(row, col);
+    }
+
+    @Override
+    public void printStats() {
+        System.out.println("Number of purchased tickets: " + purchasedTickets);
+        double percentage = ((double)purchasedTickets / (double)cinema.getTotalSeats()) * 100;
+        System.out.printf("Percentage: %.2f", percentage);
+        System.out.println("%");
+        System.out.println("Current income: $" + currentIncome);
+        System.out.println("Total income: $" + calculateMaxProfit());
     }
 }
