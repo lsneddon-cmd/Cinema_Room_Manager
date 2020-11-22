@@ -6,11 +6,35 @@ public class Cinema {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        IBookingManager bookingManager = initialiseVenue(scanner);
+
+        boolean exit = false;
+        int menuChoice;
+        while (!exit) {
+            printMenu();
+            menuChoice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (menuChoice) {
+                case 0:
+                    exit = true;
+                    break;
+                case 1:
+                    bookingManager.print();
+                    break;
+                case 2:
+                    bookingManager.buyTicket(scanner);
+                    break;
+            }
+        }
+    }
+
+    public static TheatreBookingManager initialiseVenue(Scanner scanner) {
         String[] prompts = {
                 "Enter the number of rows:",
                 "Enter the number of seats in each row:"
         };
-
         // Collect input
         System.out.println(prompts[0]);
         int rows = scanner.nextInt();
@@ -21,22 +45,17 @@ public class Cinema {
 
         // Create booking manager
         Theatre cinema = new Theatre(rows, cols);
-        IBookingManager bookingManager = new TheatreBookingManager(cinema);
-        cinema.printFormatted();
+        return new TheatreBookingManager(cinema);
+    }
 
-        // Book a seat
-        System.out.println("Enter a row number:");
-        int row = scanner.nextInt();
-        row--; // Account for zero indexing
-        scanner.nextLine();
-        System.out.println("Enter a seat number in that row:");
-        int col = scanner.nextInt();
-        col--; // Account for zero indexing
-        scanner.nextLine();
-        System.out.println();
-        System.out.println("Ticket price: $" + bookingManager.getSeatPrice(row, col));
-        bookingManager.bookSeat(row, col);
-        System.out.println();
-        bookingManager.print();
+    public static void printMenu() {
+        String[] menu = {
+                "1. Show the seats",
+                "2. Buy a ticket",
+                "0. Exit"
+        };
+        for (String item : menu) {
+            System.out.println(item);
+        }
     }
 }

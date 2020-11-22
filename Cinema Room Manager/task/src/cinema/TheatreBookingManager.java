@@ -2,6 +2,7 @@ package cinema;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class TheatreBookingManager implements IBookingManager {
     Theatre cinema;
@@ -80,5 +81,20 @@ public class TheatreBookingManager implements IBookingManager {
     @Override
     public void print() {
         cinema.printFormatted();
+    }
+
+    @Override
+    public void buyTicket(Scanner scanner) {
+        System.out.println("Enter a row number:");
+        int row = scanner.nextInt();
+        row--; // Account for zero indexing
+        scanner.nextLine();
+        System.out.println("Enter a seat number in that row:");
+        int col = scanner.nextInt();
+        col--; // Account for zero indexing
+        scanner.nextLine();
+        System.out.println();
+        System.out.println("Ticket price: $" + getSeatPrice(row, col));
+        bookSeat(row, col);
     }
 }
