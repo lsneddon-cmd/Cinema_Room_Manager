@@ -48,12 +48,14 @@ public class Theatre implements IMatrix {
         }
     }
 
-    public boolean updateContent() {
-        return true;
+    @Override
+    public void updateContent(int row, int col, char newContent) {
+        matrix[row][col] = newContent;
     }
 
-    public char showContent() {
-        return 'S';
+    @Override
+    public char showContent(int row, int col) {
+        return matrix[row][col];
     }
 
     public int getCols() {

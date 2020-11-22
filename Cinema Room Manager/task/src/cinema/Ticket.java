@@ -29,7 +29,7 @@ public class Ticket {
         return booked;
     }
 
-    public void setBooked() {
-        this.booked = true;
+    public void setBooked(boolean bool) {
+        this.booked = bool;
     }
 }

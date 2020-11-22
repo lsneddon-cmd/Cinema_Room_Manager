@@ -43,4 +43,42 @@ public class TheatreBookingManager implements IBookingManager {
             return new Ticket(row, col, 8);
         }
     }
+
+    @Override
+    public boolean bookSeat(int row, int col) {
+        if (checkAvailableSeat(row, col)) {
+            cinema.updateContent(row, col, 'B');
+            for (Ticket ticket : tickets) {
+                if (ticket.getRow() == row && ticket.getCol() == col) {
+                    ticket.setBooked(true);
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int getSeatPrice(int row, int col) {
+        for (Ticket ticket : tickets) {
+            if (ticket.getRow() == row && ticket.getCol() == col) {
+                return ticket.getPrice();
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean checkAvailableSeat(int row, int col) {
+        for (Ticket ticket : tickets) {
+            if (ticket.getRow() == row && ticket.getCol() == col) {
+                return !ticket.getBooked();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void print() {
+        cinema.printFormatted();
+    }
 }

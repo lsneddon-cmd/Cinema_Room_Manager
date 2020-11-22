@@ -22,6 +22,21 @@ public class Cinema {
         // Create booking manager
         Theatre cinema = new Theatre(rows, cols);
         IBookingManager bookingManager = new TheatreBookingManager(cinema);
-        bookingManager.printMaxProfit();
+        cinema.printFormatted();
+
+        // Book a seat
+        System.out.println("Enter a row number:");
+        int row = scanner.nextInt();
+        row--; // Account for zero indexing
+        scanner.nextLine();
+        System.out.println("Enter a seat number in that row:");
+        int col = scanner.nextInt();
+        col--; // Account for zero indexing
+        scanner.nextLine();
+        System.out.println();
+        System.out.println("Ticket price: $" + bookingManager.getSeatPrice(row, col));
+        bookingManager.bookSeat(row, col);
+        System.out.println();
+        bookingManager.print();
     }
 }
