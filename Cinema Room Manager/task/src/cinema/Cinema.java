@@ -55,8 +55,7 @@ public class Cinema {
         scanner.nextLine();
 
         // Create booking manager
-        Theatre cinema = new Theatre(rows, cols);
-        return new TheatreBookingManager(cinema);
+        return TheatreBookingManager.getInstance(new Theatre(rows, cols));
     }
 
     public static void printMenu() {

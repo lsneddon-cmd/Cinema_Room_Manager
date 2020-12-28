@@ -9,8 +9,9 @@ public class TheatreBookingManager implements IBookingManager {
     private List<Ticket> tickets;
     private int purchasedTickets;
     private int currentIncome;
+    private static TheatreBookingManager instance;
 
-    public TheatreBookingManager(Theatre cinema) {
+    private TheatreBookingManager(Theatre cinema) {
         this.cinema = cinema;
         tickets = new ArrayList<>();
         // TODO As we don't random access, tickets is better as Linked List
@@ -23,10 +24,17 @@ public class TheatreBookingManager implements IBookingManager {
         this.currentIncome = 0;
     }
 
+    public static TheatreBookingManager getInstance(Theatre cinema) {
+        if (instance == null) {
+            instance = new TheatreBookingManager(cinema);
+        }
+        return instance;
+    }
+
     @Override
     public int calculateMaxProfit() {
         return tickets.stream()
-                .map(t -> t.getPrice())
+                .map(Ticket::getPrice)
                 .mapToInt(Integer::intValue)
                 .sum();
     }
