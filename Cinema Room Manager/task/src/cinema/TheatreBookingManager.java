@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TheatreBookingManager implements IBookingManager {
-    private Theatre cinema;
+    private final Theatre cinema;
     private List<Ticket> tickets;
     private int purchasedTickets;
     private int currentIncome;
@@ -25,11 +25,10 @@ public class TheatreBookingManager implements IBookingManager {
 
     @Override
     public int calculateMaxProfit() {
-        int total = 0;
-        for (Ticket ticket : tickets) {
-            total += ticket.getPrice();
-        }
-        return total;
+        return tickets.stream()
+                .map(t -> t.getPrice())
+                .mapToInt(Integer::intValue)
+                .sum();
     }
 
     @Override
