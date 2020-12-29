@@ -1,14 +1,17 @@
 package cinema;
 
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class Cinema {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         IBookingManager bookingManager = initialiseVenue(scanner);
+        menuLoop(scanner, bookingManager);
+    }
 
+    public static void menuLoop(Scanner scanner, IBookingManager bookingManager) {
         boolean exit = false;
         int menuChoice;
         while (!exit) {
@@ -33,7 +36,6 @@ public class Cinema {
                             System.out.println(e.getMessage());
                         }
                     }
-                    booked = false;
                     break;
                 case 3:
                     bookingManager.printStats();
@@ -54,7 +56,7 @@ public class Cinema {
         int cols = scanner.nextInt();
         scanner.nextLine();
 
-        // Create booking manager
+        // Get Booking manager instance
         return TheatreBookingManager.getInstance(new Theatre(rows, cols));
     }
 
@@ -65,8 +67,7 @@ public class Cinema {
                 "3. Statistics",
                 "0. Exit"
         };
-        for (String item : menu) {
-            System.out.println(item);
-        }
+        Stream.of(menu)
+                .forEach(System.out::println);
     }
 }

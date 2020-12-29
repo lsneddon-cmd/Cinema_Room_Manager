@@ -14,7 +14,6 @@ public class TheatreBookingManager implements IBookingManager {
     private TheatreBookingManager(Theatre cinema) {
         this.cinema = cinema;
         tickets = new ArrayList<>();
-        // TODO As we don't random access, tickets is better as Linked List
         for (int i = 0; i < cinema.getRows(); i++) {
             for (int j = 0; j < cinema.getCols(); j++) {
                 tickets.add(generateTicket(i, j));
@@ -58,28 +57,37 @@ public class TheatreBookingManager implements IBookingManager {
     }
 
     @Override
-    public boolean bookSeat(int row, int col) {
+    public void bookSeat(int row, int col) throws Exception {
         if (checkAvailableSeat(row, col)) {
             cinema.updateContent(row, col, 'B');
             for (Ticket ticket : tickets) {
                 if (ticket.getRow() == row && ticket.getCol() == col) {
                     ticket.setBooked(true);
+                }
+            }
+            for (Ticket ticket : tickets) {
+                if (ticket.getRow() == row && ticket.getCol() == col) {
                     purchasedTickets++;
+                }
+            }
+            for (Ticket ticket : tickets) {
+                if (ticket.getRow() == row && ticket.getCol() == col) {
                     currentIncome += ticket.getPrice();
                 }
             }
+        } else {
+            throw new Exception("Seat not available");
         }
-        return false;
     }
 
     @Override
-    public int getSeatPrice(int row, int col) {
+    public int getSeatPrice(int row, int col) throws Exception {
         for (Ticket ticket : tickets) {
             if (ticket.getRow() == row && ticket.getCol() == col) {
                 return ticket.getPrice();
             }
         }
-        return -1;
+        throw new Exception("Seat not found");
     }
 
     @Override
@@ -125,8 +133,7 @@ public class TheatreBookingManager implements IBookingManager {
     @Override
     public void printStats() {
         System.out.println("Number of purchased tickets: " + purchasedTickets);
-        double percentage = ((double)purchasedTickets / (double)cinema.getTotalSeats()) * 100;
-        System.out.printf("Percentage: %.2f", percentage);
+        System.out.printf("Percentage: %.2f", ((double)purchasedTickets / (double)cinema.getTotalSeats()) * 100);
         System.out.println("%");
         System.out.println("Current income: $" + currentIncome);
         System.out.println("Total income: $" + calculateMaxProfit());

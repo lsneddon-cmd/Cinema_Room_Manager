@@ -1,13 +1,13 @@
 package cinema;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class Theatre implements IMatrix {
-    // TODO Theatre should implement a new interface IVenue that extends IMatrix
-    private int rows;
-    private int cols;
+    private final int rows;
+    private final int cols;
     char[][] matrix;
-    private int totalSeats;
+    private final int totalSeats;
 
     public Theatre(int rows, int cols) {
         this.rows = rows;
@@ -20,13 +20,7 @@ public class Theatre implements IMatrix {
     }
 
     public Theatre() {
-        this.rows = 7;
-        this.cols = 8;
-        this.totalSeats = rows * cols;
-        matrix = new char[rows][cols];
-        for (int i = 0; i < rows; i++) {
-            Arrays.fill(matrix[i], 'S');
-        }
+        this(7, 8);
     }
 
     public void printFormatted() {
@@ -34,9 +28,8 @@ public class Theatre implements IMatrix {
         System.out.println("Cinema:");
         // Column headings
         System.out.print(" ");
-        for (int i = 0; i < cols; i++) {
-            System.out.print(" " + (i+1));
-        }
+        Stream.iterate(1, i -> i <= cols, i -> i + 1)
+            .forEach(i -> System.out.print(" " + i));
         System.out.println();
         // Rows
         for (int i = 0; i < rows; i++) {
